@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
 
-# check column names
-loansData.head()
-
 def clean_up_data():
 	loansData = pd.read_csv('https://spark-public.s3.amazonaws.com/dataanalysis/loansData.csv')
 	loansData.dropna(inplace=True)
