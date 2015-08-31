@@ -49,3 +49,5 @@ print 'R-Squared: ', f.rsquared
 
 # P-values are <= 0.05
 # R-squared = 0.6566, a good fit
+
+loansData.to_csv('loansData_clean.csv', header=True, index=False)
