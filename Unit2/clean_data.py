@@ -22,3 +22,5 @@ def clean_up_data():
 	# confirm values are in float or int format instead of strings
 	loansData['Interest.Rate'] = loansData['Interest.Rate'].map(lambda x: float(x))
 	loansData['Amount.Requested'] = loansData['Amount.Requested'].map(lambda x: int(x))
+
+	return loansData
