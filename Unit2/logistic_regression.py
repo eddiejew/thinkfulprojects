@@ -10,7 +10,7 @@ import clean_data
 loansData = clean_data.clean_up_data()
 
 # create a column for <12% interest rate
-loansData['IR_TF'] = loansData['Interest.Rate'].map(lambda x: True if x < 12 else False)
+loansData['IR_TF'] = loansData['Interest.Rate'].map(lambda x: True if x < 0.12 else False)
 
 # create a column for statsmodels intercept == 1.0
 loansData['StatsModels.Intercept'] = loansData['Interest.Rate'].map(lambda x: 1.0)
@@ -19,7 +19,7 @@ loansData['StatsModels.Intercept'] = loansData['Interest.Rate'].map(lambda x: 1.
 ind_vars = ['Amount.Requested', 'FICO.Score', 'StatsModels.Intercept']
 
 # logistic regression model:
-logit = sm.Logit(df['IR_TF'], df[ind_vars])
+logit = sm.Logit(loansData['IR_TF'], loansData[ind_vars])
 # fit the model:
 result = logit.fit()
 # return the fitted coefficients from the results:
@@ -30,7 +30,7 @@ print coeff[2] # StatsModels.Intercept
 
 # logistic_function
 def logistic_function(FICO_Score, Amount_Requested):
-	logit = sm.Logit(loansData['IR_TF'], loansData[ind_var])
+	logit = sm.Logit(loansData['IR_TF'], loansData[ind_vars])
 	result = logit.fit()
 	coeff = result.params
 	p = 1/(1 + math.e**(coeff[2] + coeff[1]*FICO_Score + coeff[0]*Amount_Requested))
