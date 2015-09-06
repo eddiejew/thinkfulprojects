@@ -7,7 +7,7 @@ import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
 
 # import loans data
-loansData = pd.read_csv("/Users/eddiejew/thinkful/LoanStats3c.csv").astype(str)
+loansData = pd.read_csv('/Users/eddiejew/thinkful/LoanStats3c.csv', low_memory=False)
 
 # remove rows with null values
 loansData.dropna(inplace=True)
