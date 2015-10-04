@@ -4,27 +4,27 @@ import requests
 import sqlite3 as lite
 import datetime
 
-my_api_key = '1c45b275474d4c380bcabf0b395d3b64'
+my_api_key = '64c420e14c39bed2edd6b570303716d9'
 my_api_url = 'https://api.forecast.io/forecast/' + my_api_key
 
 #dictionary of 5 cities
-cities = {	"New York": '40.663619,-73.938589',
-						"Washington": '38.904103,-77.017229',
-						"Austin": '30.303936,-97.754355'
-						"Chicago": '41.837551,-87.681844'
-						"San Francisco": '37.727239,-123.032229'
-			}
+cities = {  "Atlanta": '33.762909,-84.422675',
+			"Denver": '39.761850,-104.881105',
+			"Miami": '25.775163,-80.208615',
+			"Nashville": '36.171800,-86.785002',
+			"Seattle": '47.620499,-122.350876' 
+		}
 
 # set the time for "now" - the time the code is executed
 # this makes the reference time the same for all queries
 now = datetime.datetime.now()
 
 # set up the datebase
-con = lite.connect('weather_api.db')
+con = lite.connect('weather.db')
 cur = con.cursor()
 
 with con:
-	cur.execute('CREATE TABLE IF NOT EXISTS temp ( day_recorded INT, New York REAL, Washington REAL, Austin REAL, Chicago REAL, San Francisco REAL )')
+	cur.execute('CREATE TABLE IF NOT EXISTS temp ( day_recorded INT, Atlanta REAL, Denver REAL, Miami REAL, Nashville REAL, Seattle REAL )')
 
 # day_of_query starts 30 days in the past (from now)
 day_of_query = now - datetime.timedelta(days=30)
@@ -39,7 +39,7 @@ with con:
 for k, v in cities.iteritems():
 	day_of_query = now - datetime.timedelta(days=30)
 	while day_of_query < now:
-		r = requests.get(my_api_url + '/' + v + ',' + day_of_query.strftime('%Y-%m-%dT12:00:00'))
+		r = requests.get(my_api_url + v + ',' + day_of_query.strftime('%Y-%m-%dT12:00:00'))
 		with con:
 			cur.execute('UPDATE temp SET ' + k + ' = ' + str(r.json()['daily']['data'][0]['temperatureMax']) + ' WHERE day_recorded = ' + day_of_query.strftime('%s'))
 		day_of_query += datetime.timedelta(days=1)
