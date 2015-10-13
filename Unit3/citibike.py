@@ -12,7 +12,7 @@ import datetime
 r = requests.get('http://www.citibikenyc.com/stations/json')
 
 key_list = [] # unique list of keys for each station listing
-for station in r.json()['stationBeanList']:
+for station in r.json()['stationBeanList']: # loop through the station list
 	for k in station.keys():
 		if k not in key_list:
 			key_list.append(k)
@@ -49,11 +49,9 @@ np.median(df.availableBikes [df.statusValue == 'In Service'])
 con = lite.connect('citi_bike.db')
 cur = con.cursor()
 
-# create table
+# create table to store the citibike data we need
 with con:
 	cur.execute('DROP TABLE IF EXISTS citibike_reference')
-
-with con:
 	cur.execute('CREATE TABLE IF NOT EXISTS citibike_reference (id INT PRIMARY KEY, totalDocks INT, city TEXT, altitude INT, stAddress2 TEXT, longitude NUMERIC, postalCode TEXT, testStation TEXT, stAddress1 TEXT, stationName TEXT, landMark TEXT, latitude NUMERIC, location TEXT )')
 
 # a prepared SQL statement we're going to execute over and over again
@@ -68,12 +66,11 @@ with con:
 station_ids = df['id'].tolist()
 # add the '_' to the station name and also add the data type for SQLite
 station_ids = ['_' + str(x) + ' INT' for x in station_ids]
+# adding '_' is necessary because column names cannot start with a number
 
 # create the table - concatentating the string and joining all the station ids (now with '_' and 'INT' added)
 with con:
 	cur.execute("DROP TABLE IF EXISTS available_bikes")
-
-with con:
 	cur.execute("CREATE TABLE IF NOT EXISTS available_bikes ( execution_time INT, " +  ", ".join(station_ids) + ");")
 
 # take the string and parse it into a Python datetime object
