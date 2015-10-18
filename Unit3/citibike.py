@@ -8,6 +8,7 @@ import sqlite3 as lite
 from dateutil.parser import parse
 import collections
 import datetime
+import numpy as np
 
 r = requests.get('http://www.citibikenyc.com/stations/json')
 
@@ -29,8 +30,6 @@ len(df[df['statusValue'] == 'In Service'].values)
 # 435 stations in service
 len(df[df['statusValue'] == 'Not In Service'].values)
 # 73 stations not in service
-
-import numpy as np
 
 # What is the mean number of bikes in a dock?
 np.mean(df.availableBikes)
