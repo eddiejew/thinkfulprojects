@@ -18,6 +18,8 @@ for station in r.json()['stationBeanList']: # loop through the station list
 		if k not in key_list:
 			key_list.append(k)
 
+# combine to 2 nested list comprehensions instead of a for loop, but may be difficult to read
+
 # use json_normalize to convert to a pandas dataframe
 df = json_normalize(r.json()['stationBeanList'])
 
