@@ -27,14 +27,13 @@ fico = loansData['FICO.Score']
 # break data into 10 segments using KFold
 kf = KFold(len(loansData),n_folds=10, shuffle=True)
 
-output = []
 for train, test in kf:
-	    y = np.matrix(intrate[train]).transpose() # build model on training set, test model on test set
-	    x1 = np.matrix(fico[train]).transpose()
-	    x2 = np.matrix(loanamt[train]).transpose()
+	    y = np.matrix(intrate.iloc[train]).transpose() # build model on training set, test model on test set
+	    x1 = np.matrix(fico.iloc[train]).transpose()
+	    x2 = np.matrix(loanamt.iloc[train]).transpose() # .iloc forces pandas to use position rather than the name of the row
 	    x = np.column_stack([x1,x2])
 	    X = sm.add_constant(x)
 	    model = sm.OLS(y,X)
 	    f = model.fit()
 
-print output
+print f.summary() # sometimes the model will perform better, will not know the answer until we cross validate
