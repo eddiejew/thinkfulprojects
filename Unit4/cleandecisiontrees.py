@@ -32,6 +32,9 @@ print 'Activity categories: '
 print categories
 print
 
+# save samsungdata to a new csv file, will use later to create test and train sets
+df = samsungdata
+df.to_csv('samsungdata.csv', index=False)
 # plot a histogram of 'Body Acceleration Magnitue'
 body_acc_mag = samsungdata['fAccMean'].dropna()
 # print boddy_acc_mag
