@@ -37,3 +37,17 @@ for train, test in kf:
 	    f = model.fit()
 
 print f.summary() # sometimes the model will perform better, will not know the answer until we cross validate
+
+train_X, train_y = X[:700], y[:700]
+test_X, test_y = X[700:], y[700:]
+
+train_df = pd.DataFrame({'X': train_X, 'y': train_y}, index=[0])
+test_df = pd.DataFrame({'X': test_X, 'y': test_y}, index=[0])
+tt = t.reshape(-1)
+
+poly_1 = smf.ols(formula='y ~ 1 + X', data=train_df).fit()
+
+predicted_y = poly_1.predict(test_df['X'])[700:]
+
+mse = sum((predicted_y - test_df['y'])**2) / (len(predicted_y))
+print "MSE = %s" %mse
