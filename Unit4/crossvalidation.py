@@ -10,6 +10,7 @@ from sklearn.cross_validation import KFold
 loansData = pd.read_csv('https://spark-public.s3.amazonaws.com/dataanalysis/loansData.csv') # empty column name in header, not present in data, pandas assigning this as first row which is causing error
 # drop the null rows
 loansData.dropna(inplace=True)
+loansData.flatten() # trying to flatten data based on 1-dimensional error
 
 # remove '%' from Interest.Rate column
 loansData['Interest.Rate'] = loansData['Interest.Rate'].map(lambda x: round(float(x.rstrip('%')) / 100, 4))
@@ -43,7 +44,6 @@ test_X, test_y = X[700:], y[700:]
 
 train_df = pd.DataFrame({'X': train_X, 'y': train_y}, index=[0])
 test_df = pd.DataFrame({'X': test_X, 'y': test_y}, index=[0])
-tt = t.reshape(-1)
 
 poly_1 = smf.ols(formula='y ~ 1 + X', data=train_df).fit()
 
@@ -51,3 +51,6 @@ predicted_y = poly_1.predict(test_df['X'])[700:]
 
 mse = sum((predicted_y - test_df['y'])**2) / (len(predicted_y))
 print "MSE = %s" %mse
+mae = abs((predicted_y - test_df['y'])**2) / (len(predicted_y))
+print "MAE = %s" %mae
+# retrieve R-squared from summary
