@@ -94,7 +94,7 @@ print network_name
 """
 
 class Neuron:
-    def __init__(self, n_inputs ):
+    def __init__(self, n_inputs = 1000 ):
         self.n_inputs = n_inputs
         self.set_weights( [random.uniform(0,1) for x in range(0,n_inputs+1)] ) # +1 for bias weight
 
@@ -109,7 +109,7 @@ class Neuron:
         return 'Weights: %s, Bias: %s' % ( str(self.weights[:-1]),str(self.weights[-1]) )
 
 class NeuronLayer:
-    def __init__(self, n_neurons, n_inputs):
+    def __init__(self, n_neurons = 3, n_inputs = 1000):
         self.n_neurons = n_neurons
         self.neurons = [Neuron( n_inputs ) for _ in range(0,self.n_neurons)]
 
@@ -117,7 +117,7 @@ class NeuronLayer:
         return 'Layer:\n\t'+'\n\t'.join([str(neuron) for neuron in self.neurons])+''
 
 class NeuralNetwork:
-    def __init__(self, n_inputs, n_outputs, n_neurons_to_hl, n_hidden_layers):
+    def __init__(self, n_inputs = 1000, n_outputs = 3, n_neurons_to_hl = 3, n_hidden_layers = 3):
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
         self.n_hidden_layers = n_hidden_layers
