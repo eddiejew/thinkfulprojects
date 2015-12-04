@@ -293,8 +293,8 @@ for n in neighbors:
 	clf = KNeighborsClassifier(n_neighbors=n)
 	clf.fit(train_data, train_label)
 	knn_pred = clf.predict(test_data)
-	
-plt.plot(n, accuracy_score(test_label, knn_pred), color = 'purple', marker = 'o')
+	plt.plot(n, accuracy_score(test_label, knn_pred), color = 'purple', marker = 'o')
+
 plt.xlabel('Neighbors')
 plt.ylabel('Accuracy Score')
 plt.show()
@@ -309,4 +309,12 @@ print 'Mean of cross validation for KNN is {0}' .format(cv3.mean())
 
 ################################################################################################################################################
 
-# Will add discussion here
+# Discussion
+# From the results it seems that SVM and KNN are the most accurate classifiers in determining 
+# handwritten digits from images. Initially I had assumed Random Forest and Extra Trees would 
+# be similar in accuracy compared to SVM and KNN, although the results indicated this is certaily 
+# incorrect at worst, and a stretch at best.
+# It isn't too surprising that SVM and KNN are better at classifying images compared to the decision 
+# tree calssifiers - image recognition programs relies on SVM to identify key features.
+# Thinking about the code, we perhaps could have used K-Means as another method of classifying 
+# handwritten digits. 
